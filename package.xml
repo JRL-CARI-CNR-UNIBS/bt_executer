@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>btcpp_skills</name>
+  <name>bt_executer</name>
   <version>0.0.0</version>
   <description>Package that implements high-level skills using Behavior Trees.</description>
   <maintainer email="michele.ferrari@unibs.it">Michele Ferrari</maintainer>
@@ -15,6 +15,8 @@
   <depend>behaviortree_ros2</depend>
   <depend>btcpp_ros2_interfaces</depend>
   <depend>std_msgs</depend>
+  <depend>cnr_param</depend>
+
 
   <export>
     <build_type>ament_cmake</build_type>
