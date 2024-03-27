@@ -6,7 +6,7 @@
 #include <behaviortree_ros2/bt_action_node.hpp>
 #include <behaviortree_ros2/plugins.hpp>
 
-#include <ament_index_cpp/get_package_share_directory.hpp>
+// #include <ament_index_cpp/get_package_share_directory.hpp>
 #include <cnr_param/cnr_param.h>
 
 void searchForPlugins(std::vector<std::string>& plugin_paths)
@@ -40,6 +40,13 @@ int main(int argc, char ** argv)
 
   rclcpp::NodeOptions options;
   auto node = rclcpp::Node::make_shared("bt_executer_node", options);
+
+  // std::string package_share_directory = ament_index_cpp::get_package_share_directory("my_package");
+  // std::string library_path = package_share_directory + "/lib/my_library.so";
+
+
+  return 0;
+
 
   std::vector<std::string> available_plugins;
   searchForPlugins(available_plugins);

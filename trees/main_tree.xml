@@ -3,6 +3,7 @@
         <Sequence name="root_sequence">
             <SleepScemo name="brontolo" action_name="/sleep_service" msec="2000"/>
             <SleepScemo name="psiolo" action_name="/sleep_service" msec="100"/>
+<!--            <MoveTo name="cannolo" action_name="/move_to" group_name="kuka" ik_service_name="" pose="" simulation="True" />-->
         </Sequence>
      </BehaviorTree>
  </root>
