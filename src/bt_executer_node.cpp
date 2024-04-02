@@ -43,9 +43,7 @@ int main(int argc, char ** argv)
 
   // std::string package_share_directory = ament_index_cpp::get_package_share_directory("my_package");
   // std::string library_path = package_share_directory + "/lib/my_library.so";
-
-
-  return 0;
+  //  return 0;
 
 
   std::vector<std::string> available_plugins;
