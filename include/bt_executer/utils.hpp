@@ -1,6 +1,8 @@
 #ifndef BT_EXECUTER_INCLUDE_BT_EXECUTER_UTILS_GET_PARAM
 #define BT_EXECUTER_INCLUDE_BT_EXECUTER_UTILS_GET_PARAM
 
+#include <behaviortree_ros2/bt_action_node.hpp>
+#include <behaviortree_ros2/plugins.hpp>
 #include <cnr_param/cnr_param.h>
 #include <rclcpp/node.hpp>
 
@@ -37,7 +39,6 @@ inline bool get_param(rclcpp::Node *node, std::string ns, std::string param_name
     RCLCPP_ERROR_STREAM(node->get_logger(), "what: " << what);
     return false;
   }
-  RCLCPP_INFO_STREAM(node->get_logger(), ns + param_name + " = " << param);
   return true;
 }
 

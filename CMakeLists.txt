@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 project(bt_executer)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+    add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 set(CMAKE_CXX_STANDARD 17)
@@ -21,56 +21,68 @@ find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 
 set(EXECUTER_DEPS
-  rclcpp
-  std_msgs
-  behaviortree_ros2
-  btcpp_ros2_interfaces
-  cnr_param
-)
+    rclcpp
+    std_msgs
+    behaviortree_ros2
+    btcpp_ros2_interfaces
+    cnr_param
+    )
 set(SKILL_LIBRARY_DEPS
-  rclcpp
-  geometry_msgs
-  behaviortree_ros2
-  trajectory_loader
-  cnr_param
-  tf2
-  tf2_ros
-)
+    rclcpp
+    geometry_msgs
+    behaviortree_ros2
+    btcpp_ros2_interfaces
+    trajectory_loader
+    cnr_param
+    tf2
+    tf2_ros
+    )
 
 # =====
 # BUILD
 # =====
 # Build the skills library
-add_library(moveTo_plugin SHARED
-  src/${PROJECT_NAME}/move_to_client.cpp
-)
-target_compile_definitions(moveTo_plugin PRIVATE  BT_PLUGIN_EXPORT)
-target_include_directories(moveTo_plugin PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
-ament_target_dependencies(moveTo_plugin ${SKILL_LIBRARY_DEPS})
+add_library(move_to_skill SHARED
+    src/skills/move_to_skill.cpp
+    )
+target_compile_definitions(move_to_skill PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(move_to_skill PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(move_to_skill ${SKILL_LIBRARY_DEPS})
+
+add_library(trajectory_loader_skill SHARED
+    src/skills/trajectory_loader_skill.cpp
+    )
+target_compile_definitions(trajectory_loader_skill PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(trajectory_loader_skill PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(trajectory_loader_skill ${SKILL_LIBRARY_DEPS})
 
 # Build the skill executer node
 add_executable(bt_executer_node
-  src/bt_executer_node.cpp
-)
+    src/bt_executer_node.cpp
+    )
 ament_target_dependencies(bt_executer_node ${EXECUTER_DEPS})
 
 # =======
 # INSTALL
 # =======
 install(TARGETS
-  moveTo_plugin
-  bt_executer_node
-  DESTINATION lib/${PROJECT_NAME}
-)
+    move_to_skill
+    trajectory_loader_skill
+    bt_executer_node
+    DESTINATION lib/${PROJECT_NAME}
+    )
 
 install(DIRECTORY include
-  DESTINATION include/)
+    DESTINATION include/)
 
 install(DIRECTORY launch config
-  DESTINATION share/${PROJECT_NAME})
+    DESTINATION share/${PROJECT_NAME})
 
 # ====
 # TEST
