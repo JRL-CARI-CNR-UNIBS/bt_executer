@@ -1,0 +1,12 @@
+moveTo:
+  cannolo:
+    group_name: kuka
+    ik_service_name: test
+    pose_name: screw_1
+    simulation: True
+
+  tritolo:
+    group_name: comau
+    ik_service_name: test2
+    pose: screw_2
+    simulation: True

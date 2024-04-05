@@ -1,3 +1,3 @@
 bt_executer:
-  plugins: ["sleep_plugin"]
-  bt_tree_path: "/home/riemann/projects/battery_cell_ws/bt_executer/trees/main_tree.xml"
+  plugins: ["sleep_plugin", "moveTo_plugin"]
+  bt_tree_path: "/home/abel/projects/task_planning_ws/src/bt_executer/trees/main_tree.xml"

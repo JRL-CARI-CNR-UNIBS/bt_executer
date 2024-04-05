@@ -1,8 +1,10 @@
  <root BTCPP_format="4" >
      <BehaviorTree ID="MainTree">
         <Sequence name="root_sequence">
-            <SleepScemo name="brontolo" action_name="/sleep_service" msec="2000"/>
-            <SleepScemo name="psiolo" action_name="/sleep_service" msec="100"/>
+            <SleepCari name="brontolo" action_name="/sleep_service" msec="2000"/>
+            <SleepCari name="psiolo" action_name="/sleep_service" msec="100"/>
+            <MoveTo name="cannolo" action_name="/move_to" param_ns="cannolo"/>
+            <MoveTo name="tritolo" action_name="/move_to" param_ns="tritolo"/>
         </Sequence>
      </BehaviorTree>
  </root>
