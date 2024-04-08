@@ -18,7 +18,7 @@ bt_executor:
     group_name: "kuka"
     trj_names: ["trj_kuka"]
     fjt_action_name: "/kuka_scaled_fjt_controller/follow_joint_trajectory"
-    repetitions: 5
+    repetitions: 2
     recompute_time_law: False
     simulation: False
   

@@ -1,10 +1,17 @@
  <root BTCPP_format="4" >
      <BehaviorTree ID="MainTree">
-        <Parallel name="root_sequence">
-            <TrajectoryLoaderSkill name="comau_test_trj" action_name= "/comau_trajectory_loader/trajectory_loader" param_ns="comau_test_trj"/>
-            <TrajectoryLoaderSkill name="kuka_test_trj" action_name= "/kuka_trajectory_loader/trajectory_loader" param_ns="kuka_test_trj"/>
-            <TriggerServiceSkill name="trigger_service_test" service_name="/trigger_service" param_ns="trigger_service_test"/>
-            <SetBoolServiceSkill name="set_bool_service_test" service_name="/set_bool_service" param_ns="set_bool_service_test"/>
-        </Parallel>
+        <Sequence name="root_sequence">
+            <Parallel name="root_parallel">
+                <TrajectoryLoaderSkill name="comau_test_trj" action_name= "/comau_trajectory_loader/trajectory_loader" param_ns="comau_test_trj"/>
+                <TrajectoryLoaderSkill name="kuka_test_trj" action_name= "/kuka_trajectory_loader/trajectory_loader" param_ns="kuka_test_trj"/>
+            </Parallel>
+
+            <TrajectoryLoaderSkill name="kuka_test_trj2" action_name= "/kuka_trajectory_loader/trajectory_loader" param_ns="kuka_test_trj"/>
+            <TrajectoryLoaderSkill name="comau_test_trj2" action_name= "/comau_trajectory_loader/trajectory_loader" param_ns="comau_test_trj"/>
+            <!-- <TriggerServiceSkill name="trigger_service_test" service_name="/trigger_service" param_ns="trigger_service_test"/>
+            <SetBoolServiceSkill name="set_bool_service_test" service_name="/set_bool_service" param_ns="set_bool_service_test"/> -->
+        </Sequence>
+
+
      </BehaviorTree>
  </root>
