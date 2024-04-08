@@ -2,6 +2,7 @@
 #define BT_EXECUTER_INCLUDE_BT_EXECUTER_UTILS_GET_PARAM
 
 #include <behaviortree_ros2/bt_action_node.hpp>
+#include <behaviortree_ros2/bt_service_node.hpp>
 #include <behaviortree_ros2/plugins.hpp>
 #include <cnr_param/cnr_param.h>
 #include <rclcpp/node.hpp>

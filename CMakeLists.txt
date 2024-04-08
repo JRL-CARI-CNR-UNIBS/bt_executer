@@ -19,6 +19,8 @@ find_package(cnr_param REQUIRED)
 find_package(trajectory_loader REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(std_srvs REQUIRED)
+
 
 set(EXECUTER_DEPS
     rclcpp
@@ -36,6 +38,7 @@ set(SKILL_LIBRARY_DEPS
     cnr_param
     tf2
     tf2_ros
+    std_srvs
     )
 
 # =====
@@ -62,6 +65,26 @@ target_include_directories(trajectory_loader_plugin PUBLIC
     )
 ament_target_dependencies(trajectory_loader_plugin ${SKILL_LIBRARY_DEPS})
 
+add_library(trigger_service_plugin SHARED
+    src/skills/trigger_service_skill.cpp
+    )
+target_compile_definitions(trigger_service_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(trigger_service_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(trigger_service_plugin ${SKILL_LIBRARY_DEPS})
+
+add_library(set_bool_service_plugin SHARED
+    src/skills/set_bool_service_skill.cpp
+    )
+target_compile_definitions(set_bool_service_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(set_bool_service_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(set_bool_service_plugin ${SKILL_LIBRARY_DEPS})
+
 # Build the skill executer node
 add_executable(bt_executer_node
     src/bt_executer_node.cpp
@@ -74,6 +97,8 @@ ament_target_dependencies(bt_executer_node ${EXECUTER_DEPS})
 install(TARGETS
     move_to_plugin
     trajectory_loader_plugin
+    trigger_service_plugin
+    set_bool_service_plugin
     bt_executer_node
     DESTINATION lib/${PROJECT_NAME}
     )
