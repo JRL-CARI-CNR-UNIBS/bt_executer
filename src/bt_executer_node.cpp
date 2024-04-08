@@ -1,12 +1,12 @@
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/executors.hpp>
+#include <ament_index_cpp/get_package_share_directory.hpp>
 
 #include <behaviortree_cpp/bt_factory.h>
 #include <behaviortree_ros2/ros_node_params.hpp>
 #include <behaviortree_ros2/bt_action_node.hpp>
 #include <behaviortree_ros2/plugins.hpp>
 
-// #include <ament_index_cpp/get_package_share_directory.hpp>
 #include <cnr_param/cnr_param.h>
 
 void searchForPlugins(std::vector<std::string>& plugin_paths)
@@ -41,11 +41,6 @@ int main(int argc, char ** argv)
   rclcpp::NodeOptions options;
   auto node = rclcpp::Node::make_shared("bt_executer_node", options);
 
-  // std::string package_share_directory = ament_index_cpp::get_package_share_directory("my_package");
-  // std::string library_path = package_share_directory + "/lib/my_library.so";
-  //  return 0;
-
-
   std::vector<std::string> available_plugins;
   searchForPlugins(available_plugins);
 
@@ -57,12 +52,12 @@ int main(int argc, char ** argv)
 
   std::string ns= "/bt_executer";
 
-  std::string w, xml_path;
-  if(cnr::param::has(ns+"/bt_tree_path",w))
+  std::string w, bt_name;
+  if(cnr::param::has(ns+"/bt_name",w))
   {
-    if(not cnr::param::get(ns+"/bt_tree_path",xml_path,w))
+    if(not cnr::param::get(ns+"/bt_name",bt_name,w))
     {
-      RCLCPP_ERROR_STREAM(node->get_logger(),"cannot load "<<ns+"/bt_tree_path");
+      RCLCPP_ERROR_STREAM(node->get_logger(),"cannot load "<<ns+"/bt_name");
       RCLCPP_ERROR_STREAM(node->get_logger(),"what:\n"<<w);
 
       return 1;
@@ -70,7 +65,7 @@ int main(int argc, char ** argv)
   }
   else
   {
-    RCLCPP_ERROR_STREAM(node->get_logger(),ns+"/bt_tree_path is not an available parameter");
+    RCLCPP_ERROR_STREAM(node->get_logger(),ns+"/bt_name is not an available parameter");
     RCLCPP_ERROR_STREAM(node->get_logger(),"what:\n"<<w);
 
     return 1;
@@ -117,12 +112,16 @@ int main(int argc, char ** argv)
 
     BT::RosNodeParams params;
     params.nh = nh;
+    params.server_timeout = std::chrono::milliseconds(10000);
+    params.wait_for_server_timeout = std::chrono::milliseconds(10000);
 
     RCLCPP_INFO_STREAM(node->get_logger(),"Path to plugin loaded "<<path_to_plugin);
     RegisterRosNode(factory,path_to_plugin,params);
   }
 
-  BT::Tree tree = factory.createTreeFromFile(xml_path);
+  std::string path_to_bt = ament_index_cpp::get_package_share_directory("bt_executer")+"/trees/"+bt_name;
+  RCLCPP_INFO_STREAM(node->get_logger(),"Loading bt: "<<path_to_bt);
+  BT::Tree tree = factory.createTreeFromFile(path_to_bt);
 
   bool finish = false;
   while (!finish && rclcpp::ok())

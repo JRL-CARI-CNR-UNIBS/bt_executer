@@ -1,10 +1,8 @@
  <root BTCPP_format="4" >
      <BehaviorTree ID="MainTree">
-        <Sequence name="root_sequence">
-            <SleepCari name="brontolo" action_name="/sleep_service" msec="2000"/>
-            <SleepCari name="psiolo" action_name="/sleep_service" msec="100"/>
-            <MoveTo name="cannolo" action_name="/move_to" param_ns="cannolo"/>
-            <MoveTo name="tritolo" action_name="/move_to" param_ns="tritolo"/>
-        </Sequence>
+        <Parallel name="root_sequence">
+            <TrajectoryLoaderSkill name="shakera_sto_babbà" action_name= "/comau_trajectory_loader/trajectory_loader" param_ns="shakera_sto_babbà"/>
+            <TrajectoryLoaderSkill name="spremi_sto_burger" action_name= "/kuka_trajectory_loader/trajectory_loader" param_ns="spremi_sto_burger"/>
+        </Parallel>
      </BehaviorTree>
  </root>

@@ -42,25 +42,25 @@ set(SKILL_LIBRARY_DEPS
 # BUILD
 # =====
 # Build the skills library
-add_library(move_to_skill SHARED
+add_library(move_to_plugin SHARED
     src/skills/move_to_skill.cpp
     )
-target_compile_definitions(move_to_skill PRIVATE  BT_PLUGIN_EXPORT)
-target_include_directories(move_to_skill PUBLIC
+target_compile_definitions(move_to_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(move_to_plugin PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
     )
-ament_target_dependencies(move_to_skill ${SKILL_LIBRARY_DEPS})
+ament_target_dependencies(move_to_plugin ${SKILL_LIBRARY_DEPS})
 
-add_library(trajectory_loader_skill SHARED
+add_library(trajectory_loader_plugin SHARED
     src/skills/trajectory_loader_skill.cpp
     )
-target_compile_definitions(trajectory_loader_skill PRIVATE  BT_PLUGIN_EXPORT)
-target_include_directories(trajectory_loader_skill PUBLIC
+target_compile_definitions(trajectory_loader_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(trajectory_loader_plugin PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
     )
-ament_target_dependencies(trajectory_loader_skill ${SKILL_LIBRARY_DEPS})
+ament_target_dependencies(trajectory_loader_plugin ${SKILL_LIBRARY_DEPS})
 
 # Build the skill executer node
 add_executable(bt_executer_node
@@ -72,8 +72,8 @@ ament_target_dependencies(bt_executer_node ${EXECUTER_DEPS})
 # INSTALL
 # =======
 install(TARGETS
-    move_to_skill
-    trajectory_loader_skill
+    move_to_plugin
+    trajectory_loader_plugin
     bt_executer_node
     DESTINATION lib/${PROJECT_NAME}
     )
@@ -81,7 +81,7 @@ install(TARGETS
 install(DIRECTORY include
     DESTINATION include/)
 
-install(DIRECTORY launch config
+install(DIRECTORY launch config trees
     DESTINATION share/${PROJECT_NAME})
 
 # ====
