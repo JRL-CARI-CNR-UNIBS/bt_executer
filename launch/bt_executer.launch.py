@@ -22,10 +22,6 @@ def generate_launch_description():
             config_folder,
             "skills_config.yaml"    # load the parameters of each skill plugin
           ]),
-          PathJoinSubstitution([
-            config_folder,
-            "poses.yaml"            # load the poses (TFs) used by the moveTo skill
-          ])
         ],
         shell=False
       ),
