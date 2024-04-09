@@ -22,7 +22,7 @@ bool SetBoolServiceSkill::setRequest(Request::SharedPtr& goal)
 
   rclcpp::sleep_for(std::chrono::milliseconds(int(pause*1000)));
 
-  goal = std::make_shared<std_srvs::srv::SetBool_Request>();
+  // goal = std::make_shared<std_srvs::srv::SetBool_Request>();
   goal->data = value;
 
   return true;
