@@ -45,5 +45,5 @@ BT::NodeStatus TriggerServiceSkill::onFailure(BT::ServiceNodeErrorCode error)
 }
 
 // Plugin registration.
-// The class TriggerServiceSkill will self register with name  "TriggerServiceSkill".
-CreateRosNodePlugin(TriggerServiceSkill, "TriggerServiceSkill");
+// The class TriggerServiceSkill will self register with name  "TriggerSkill".
+CreateRosNodePlugin(TriggerServiceSkill, "TriggerSkill");

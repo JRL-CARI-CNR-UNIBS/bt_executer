@@ -48,5 +48,5 @@ BT::NodeStatus SetBoolServiceSkill::onFailure(BT::ServiceNodeErrorCode error)
 }
 
 // Plugin registration.
-// The class SetBoolServiceSkill will self register with name  "SetBoolServiceSkill".
-CreateRosNodePlugin(SetBoolServiceSkill, "SetBoolServiceSkill");
+// The class SetBoolServiceSkill will self register with name  "SetBoolSkill".
+CreateRosNodePlugin(SetBoolServiceSkill, "SetBoolSkill");
