@@ -52,7 +52,26 @@ int main(int argc, char ** argv)
 
   std::string ns= "/bt_executer";
 
-  std::string w, bt_name;
+  std::string w, bt_package;
+  if(cnr::param::has(ns+"/bt_package",w))
+  {
+    if(not cnr::param::get(ns+"/bt_package",bt_package,w))
+    {
+      RCLCPP_ERROR_STREAM(node->get_logger(),"cannot load "<<ns+"/bt_package");
+      RCLCPP_ERROR_STREAM(node->get_logger(),"what:\n"<<w);
+
+      return 1;
+    }
+  }
+  else
+  {
+    RCLCPP_ERROR_STREAM(node->get_logger(),ns+"/bt_package is not an available parameter");
+    RCLCPP_ERROR_STREAM(node->get_logger(),"what:\n"<<w);
+
+    return 1;
+  }
+
+  std::string bt_name;
   if(cnr::param::has(ns+"/bt_name",w))
   {
     if(not cnr::param::get(ns+"/bt_name",bt_name,w))
@@ -119,7 +138,7 @@ int main(int argc, char ** argv)
     RegisterRosNode(factory,path_to_plugin,params);
   }
 
-  std::string path_to_bt = ament_index_cpp::get_package_share_directory("bt_executer")+"/trees/"+bt_name;
+  std::string path_to_bt = ament_index_cpp::get_package_share_directory(bt_package)+"/trees/"+bt_name;
   RCLCPP_INFO_STREAM(node->get_logger(),"Loading bt: "<<path_to_bt);
   BT::Tree tree = factory.createTreeFromFile(path_to_bt);
 
