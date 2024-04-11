@@ -14,7 +14,7 @@ If you want to execute a behavior tree in your specific application, you should:
   1) Copy `config/bt_config.yaml` and `config/skills_config.yaml` to `your_package/config/` folder;
   2) Copy `trees/main_tree.xml` (or write it from scratch) to `your_package/trees/` folder, and modify the .xml file as needed;
   3) Set the list of plugins to load, the name of `your_package` and of the .xml file in`your_package/config/bt_config.yaml` and the skills parameters in `your_package/config/skills_config.yaml`;
-  4) Copy `launch/bt_executer.launch.py` to `your_package/launch/` folder and change the line `config_folder = PathJoinSubstitution([FindPackageShare("bt_executer"),"config"])` into `config_folder = PathJoinSubstitution([FindPackageShare("your_package"),"config"])`
+  4) Copy `launch/bt_executer.launch.py` to `your_package/launch/` folder and change the line `config_folder = PathJoinSubstitution([FindPackageShare("bt_executer"),"config"])` to `config_folder = PathJoinSubstitution([FindPackageShare("your_package"),"config"])`
 
 ## Install
 Dowload the `deps.repo` file, which contains all the dependecies of the bt_executer package, and compile:
