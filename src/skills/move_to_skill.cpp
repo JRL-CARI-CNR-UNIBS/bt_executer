@@ -6,7 +6,7 @@ MoveToSkill::MoveToSkill(const std::string& name,
   : RosActionNode<trajectory_loader::action::MoveToAction>(name, conf, params)
 {
   auto param_ns = getInput<std::string>("param_ns");
-  ns_ = "/bt_executor/" + param_ns.value();
+  ns_ = "/bt_executer/" + param_ns.value();
 
   std::string w;
   if(not bt_executer::utils::get_param(node_.get(), ns_, "/world_name", world_, w))

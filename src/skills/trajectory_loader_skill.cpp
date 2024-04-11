@@ -6,7 +6,7 @@ TrajectoryLoaderSkill::TrajectoryLoaderSkill(const std::string& name,
   : RosActionNode<trajectory_loader::action::TrajectoryLoaderAction>(name, conf, params)
 {
   auto param_ns = getInput<std::string>("param_ns");
-  ns_ = "/bt_executor/" + param_ns.value();
+  ns_ = "/bt_executer/" + param_ns.value();
 }
 
 bool TrajectoryLoaderSkill::setGoal(RosActionNode::Goal &goal)

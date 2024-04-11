@@ -7,7 +7,7 @@ TriggerServiceSkill::TriggerServiceSkill(const std::string& name,
   : BT::RosServiceNode<std_srvs::srv::Trigger>(name, conf, params)
 {
   auto param_ns = getInput<std::string>("param_ns");
-  ns_ = "/bt_executor/" + param_ns.value();
+  ns_ = "/bt_executer/" + param_ns.value();
 }
 
 bool TriggerServiceSkill::setRequest(Request::SharedPtr& goal)
