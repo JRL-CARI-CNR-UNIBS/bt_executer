@@ -31,7 +31,7 @@ bt_executor:
   
   gpio_sequence_write_service_test:
     name: ["io1","io2"] #names of the input to write
-    delay: [100,500] #delay before activating the inputs in ms. Inputs will be activated in cascade so the first input will be activated after 100ms, the second after 100ms+500ms.
+    pause: [100,500] #pause in ms after inputs activations.
     value: [True, False] #value to set
 
   wait_test:
