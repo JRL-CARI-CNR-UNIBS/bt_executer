@@ -11,7 +11,8 @@
             <!-- 
             <TriggerSkill name="trigger_service_test" service_name="/trigger_service" param_ns="trigger_service_test"/>
             <SetBoolSkill name="set_bool_service_test" service_name="/set_bool_service" param_ns="set_bool_service_test"/> 
-            <SGPIOSequenceWriteSkill name="gpio_sequence_write_service_test" service_name="/gpio_sequence_write_service" param_ns="gpio_sequence_write_service_test"/>
+            <GPIOSequenceWriteSkill name="gpio_sequence_write_service_test" service_name="/gpio_sequence_write_service" param_ns="gpio_sequence_write_service_test"/>
+            <WaitSkill name="wait_test" service_name="/sleep_action_server" param_ns="wait_test"/>
              -->
         </Sequence>
      </BehaviorTree>

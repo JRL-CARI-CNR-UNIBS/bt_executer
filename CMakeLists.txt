@@ -85,6 +85,16 @@ target_include_directories(set_bool_service_plugin PUBLIC
     )
 ament_target_dependencies(set_bool_service_plugin ${SKILL_LIBRARY_DEPS})
 
+add_library(wait_plugin SHARED
+    src/skills/wait_skill.cpp
+    )
+target_compile_definitions(wait_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(wait_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(wait_plugin ${SKILL_LIBRARY_DEPS})
+
 # Build the skill executer node
 add_executable(bt_executer_node
     src/bt_executer_node.cpp
