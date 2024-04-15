@@ -5,11 +5,15 @@ bt_executor:
     location_name: "test_comau_location"
     fjt_action_name: "/comau_scaled_fjt_controller/follow_joint_trajectory"
     simulation: False
+    speed_scaling_topic: "/speed_ovr"
+    scaling: 50
 
   comau_test_trj:
     group_name: "comau"
     trj_names: ["trj_comau"]
     fjt_action_name: "/comau_scaled_fjt_controller/follow_joint_trajectory"
+    speed_scaling_topic: "/speed_ovr"
+    scaling: 50
     repetitions: 5
     recompute_time_law: False
     simulation: False
@@ -21,7 +25,9 @@ bt_executor:
     repetitions: 2
     recompute_time_law: False
     simulation: False
-  
+    speed_scaling_topic: "/speed_ovr"
+    scaling: 50
+
   trigger_service_test:
     pause: 1.5 #seconds of pause before triggering
 

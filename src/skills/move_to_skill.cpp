@@ -15,8 +15,9 @@ MoveToSkill::MoveToSkill(const std::string& name,
 
 bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
 {
+  int scaling;
   bool simulation;
-  std::string fjt_action_name, action_name, group_name, ik_service_name, location_name;
+  std::string fjt_action_name, action_name, group_name, ik_service_name, location_name, speed_scaling_topic;
 
   // Get required parameters
   std::string w;
@@ -25,6 +26,8 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
   bt_executer::utils::get_param(node_.get(), ns_, "/simulation", simulation, w);
   bt_executer::utils::get_param(node_.get(), ns_, "/location_name", location_name, w);  //pose to reach
   bt_executer::utils::get_param(node_.get(), ns_, "/fjt_action_name", fjt_action_name, w);
+  bt_executer::utils::get_param(node_.get(), ns_, "/speed_scaling_topic", speed_scaling_topic, w);
+  bt_executer::utils::get_param(node_.get(), ns_, "/scaling", scaling, w);
 
   // Get queried location
   geometry_msgs::msg::TransformStamped transform;
@@ -43,6 +46,8 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
   goal.ik_service_name = ik_service_name;
   goal.simulation = simulation;
   goal.fjt_action_name = fjt_action_name;
+  goal.speed_scaling_topic = speed_scaling_topic;
+  goal.scaling = scaling;
 
   goal.pose.header = transform.header;
   goal.pose.pose.orientation = transform.transform.rotation;

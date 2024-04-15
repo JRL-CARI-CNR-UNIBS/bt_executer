@@ -14,8 +14,9 @@ bool TrajectoryLoaderSkill::setGoal(RosActionNode::Goal &goal)
   int repetitions;
   bool simulation, recompute_time_law;
 
+  int scaling;
   std::vector<std::string> trj;
-  std::string fjt_action_name, action_name, group_name, ik_service_name, location_name;
+  std::string fjt_action_name, action_name, group_name, ik_service_name, location_name, speed_scaling_topic;
 
   // Get required parameters
   std::string w;
@@ -25,12 +26,16 @@ bool TrajectoryLoaderSkill::setGoal(RosActionNode::Goal &goal)
   bt_executer::utils::get_param(node_.get(), ns_, "/repetitions", repetitions, w);
   bt_executer::utils::get_param(node_.get(), ns_, "/fjt_action_name", fjt_action_name, w);
   bt_executer::utils::get_param(node_.get(), ns_, "/recompute_time_law", recompute_time_law, w);
+  bt_executer::utils::get_param(node_.get(), ns_, "/speed_scaling_topic", speed_scaling_topic, w);
+  bt_executer::utils::get_param(node_.get(), ns_, "/scaling", scaling, w);
 
   goal.trj_names = trj;
   goal.group_name = group_name;
   goal.repetitions = repetitions;
   goal.fjt_action_name = fjt_action_name;
   goal.recompute_time_law = recompute_time_law;
+  goal.speed_scaling_topic = speed_scaling_topic;
+  goal.scaling = scaling;
 
   return true;
 }
