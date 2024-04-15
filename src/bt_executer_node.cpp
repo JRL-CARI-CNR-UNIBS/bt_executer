@@ -140,7 +140,8 @@ int main(int argc, char ** argv)
 
   std::string path_to_bt = ament_index_cpp::get_package_share_directory(bt_package)+"/trees/"+bt_name;
   RCLCPP_INFO_STREAM(node->get_logger(),"Loading bt: "<<path_to_bt);
-  BT::Tree tree = factory.createTreeFromFile(path_to_bt);
+  factory.registerBehaviorTreeFromFile(path_to_bt);
+  BT::Tree tree = factory.createTree("MainTree");
 
   bool finish = false;
   while (!finish && rclcpp::ok())

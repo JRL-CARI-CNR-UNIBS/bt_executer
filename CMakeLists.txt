@@ -109,6 +109,7 @@ install(TARGETS
     trajectory_loader_plugin
     trigger_service_plugin
     set_bool_service_plugin
+    wait_plugin
     bt_executer_node
     DESTINATION lib/${PROJECT_NAME}
     )
