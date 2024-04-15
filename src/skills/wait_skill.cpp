@@ -17,7 +17,7 @@ bool WaitSkill::setGoal(RosActionNode::Goal &goal)
   std::string w;
   bt_executer::utils::get_param(node_.get(), ns_, "/wait_ms", wait_ms, w);
 
-  if(wait_ms)
+  if(wait_ms<0)
   {
     RCLCPP_WARN_STREAM(node_->get_logger(),"/wait_ms cannot be negative, set to 0");
     wait_ms = 0;
