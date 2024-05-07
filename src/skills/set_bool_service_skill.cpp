@@ -17,8 +17,8 @@ bool SetBoolServiceSkill::setRequest(Request::SharedPtr& goal)
 
   // Get required parameters
   std::string w;
-  bt_executer::utils::get_param(node_.get(), ns_, "/pause", pause, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/value", value, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/pause", pause, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/value", value, w);
 
   rclcpp::sleep_for(std::chrono::milliseconds(int(pause*1000)));
 
@@ -30,20 +30,20 @@ bool SetBoolServiceSkill::setRequest(Request::SharedPtr& goal)
 
 BT::NodeStatus SetBoolServiceSkill::onResponseReceived(const Response::SharedPtr& response)
 {
-  RCLCPP_INFO(node_->get_logger(), "%s: onResponseReceived. Done = %s", name().c_str(),
+  RCLCPP_INFO(node_.lock()->get_logger(), "%s: onResponseReceived. Done = %s", name().c_str(),
               response->success ? "true" : "false");
   if (response->success)
     return BT::NodeStatus::SUCCESS;
   else
   {
-    RCLCPP_ERROR_STREAM(node_->get_logger(), "Error: " << response->message);
+    RCLCPP_ERROR_STREAM(node_.lock()->get_logger(), "Error: " << response->message);
     return BT::NodeStatus::FAILURE;
   }
 }
 
 BT::NodeStatus SetBoolServiceSkill::onFailure(BT::ServiceNodeErrorCode error)
 {
-  RCLCPP_ERROR( node_->get_logger(), "%s: onFailure with error: %s", name().c_str(), toStr(error) );
+  RCLCPP_ERROR( node_.lock()->get_logger(), "%s: onFailure with error: %s", name().c_str(), toStr(error) );
   return BT::NodeStatus::FAILURE;
 }
 

@@ -9,7 +9,7 @@ MoveToSkill::MoveToSkill(const std::string& name,
   ns_ = "/bt_executer/" + param_ns.value();
 
   std::string w;
-  if(not bt_executer::utils::get_param(node_.get(), ns_, "/world_name", world_, w))
+  if(not bt_executer::utils::get_param(node_.lock().get(), ns_, "/world_name", world_, w))
     world_ = "world";
 }
 
@@ -21,13 +21,13 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
 
   // Get required parameters
   std::string w;
-  bt_executer::utils::get_param(node_.get(), ns_, "/group_name", group_name, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/ik_service_name", ik_service_name, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/simulation", simulation, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/location_name", location_name, w);  //pose to reach
-  bt_executer::utils::get_param(node_.get(), ns_, "/fjt_action_name", fjt_action_name, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/speed_scaling_topic", speed_scaling_topic, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/scaling", scaling, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/group_name", group_name, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/ik_service_name", ik_service_name, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/simulation", simulation, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/location_name", location_name, w);  //pose to reach
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/fjt_action_name", fjt_action_name, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/speed_scaling_topic", speed_scaling_topic, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/scaling", scaling, w);
 
   // Get queried location
   geometry_msgs::msg::TransformStamped transform;
@@ -36,7 +36,7 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
           location_name, world_,
           tf2::TimePointZero);
   } catch (const tf2::TransformException & ex) {
-    RCLCPP_INFO(node_->get_logger(), "Could not transform %s to %s: %s",
+    RCLCPP_INFO(node_.lock()->get_logger(), "Could not transform %s to %s: %s",
                 location_name.c_str(), location_name.c_str(), ex.what());
     return false;
   }
@@ -60,20 +60,20 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
 
 BT::NodeStatus MoveToSkill::onResultReceived(const RosActionNode::WrappedResult &wr)
 {
-  RCLCPP_INFO(node_->get_logger(), "%s: onResultReceived. Done = %s", name().c_str(),
+  RCLCPP_INFO(node_.lock()->get_logger(), "%s: onResultReceived. Done = %s", name().c_str(),
               wr.result->ok ? "true" : "false");
   if (wr.result->ok)
     return BT::NodeStatus::SUCCESS;
   else
   {
-    RCLCPP_ERROR_STREAM(node_->get_logger(), "Error: " << wr.result->error);
+    RCLCPP_ERROR_STREAM(node_.lock()->get_logger(), "Error: " << wr.result->error);
     return BT::NodeStatus::FAILURE;
   }
 }
 
 BT::NodeStatus MoveToSkill::onFailure(BT::ActionNodeErrorCode error)
 {
-  RCLCPP_ERROR( node_->get_logger(), "%s: onFailure with error: %s", name().c_str(), toStr(error) );
+  RCLCPP_ERROR( node_.lock()->get_logger(), "%s: onFailure with error: %s", name().c_str(), toStr(error) );
   return BT::NodeStatus::FAILURE;
 }
 

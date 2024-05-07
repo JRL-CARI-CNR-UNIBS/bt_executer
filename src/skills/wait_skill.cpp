@@ -15,11 +15,11 @@ bool WaitSkill::setGoal(RosActionNode::Goal &goal)
   int wait_ms;
   // Get required parameters
   std::string w;
-  bt_executer::utils::get_param(node_.get(), ns_, "/wait_ms", wait_ms, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/wait_ms", wait_ms, w);
 
   if(wait_ms<0)
   {
-    RCLCPP_WARN_STREAM(node_->get_logger(),"/wait_ms cannot be negative, set to 0");
+    RCLCPP_WARN_STREAM(node_.lock()->get_logger(),"/wait_ms cannot be negative, set to 0");
     wait_ms = 0;
   }
   
@@ -29,7 +29,7 @@ bool WaitSkill::setGoal(RosActionNode::Goal &goal)
 
 NodeStatus WaitSkill::onResultReceived(const RosActionNode::WrappedResult &wr)
 {
-  RCLCPP_INFO( node_->get_logger(), "%s: onResultReceived. Done = %s", name().c_str(), 
+  RCLCPP_INFO( node_.lock()->get_logger(), "%s: onResultReceived. Done = %s", name().c_str(), 
                wr.result->done ? "true" : "false" );
 
   return wr.result->done ? NodeStatus::SUCCESS : NodeStatus::FAILURE;
@@ -37,13 +37,13 @@ NodeStatus WaitSkill::onResultReceived(const RosActionNode::WrappedResult &wr)
 
 NodeStatus WaitSkill::onFailure(ActionNodeErrorCode error)
 {
-  RCLCPP_ERROR(node_->get_logger(), "%s: onFailure with error: %s", name().c_str(), toStr(error) );
+  RCLCPP_ERROR(node_.lock()->get_logger(), "%s: onFailure with error: %s", name().c_str(), toStr(error) );
   return NodeStatus::FAILURE;
 }
 
 void WaitSkill::onHalt()
 {
-  RCLCPP_INFO( node_->get_logger(), "%s: onHalt", name().c_str() );
+  RCLCPP_INFO( node_.lock()->get_logger(), "%s: onHalt", name().c_str() );
 }
 
 // Plugin registration.

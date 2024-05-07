@@ -20,14 +20,14 @@ bool TrajectoryLoaderSkill::setGoal(RosActionNode::Goal &goal)
 
   // Get required parameters
   std::string w;
-  bt_executer::utils::get_param(node_.get(), ns_, "/trj_names", trj, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/group_name", group_name, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/simulation", simulation, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/repetitions", repetitions, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/fjt_action_name", fjt_action_name, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/recompute_time_law", recompute_time_law, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/speed_scaling_topic", speed_scaling_topic, w);
-  bt_executer::utils::get_param(node_.get(), ns_, "/scaling", scaling, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/trj_names", trj, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/group_name", group_name, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/simulation", simulation, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/repetitions", repetitions, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/fjt_action_name", fjt_action_name, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/recompute_time_law", recompute_time_law, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/speed_scaling_topic", speed_scaling_topic, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/scaling", scaling, w);
 
   goal.trj_names = trj;
   goal.group_name = group_name;
@@ -42,20 +42,20 @@ bool TrajectoryLoaderSkill::setGoal(RosActionNode::Goal &goal)
 
 BT::NodeStatus TrajectoryLoaderSkill::onResultReceived(const RosActionNode::WrappedResult &wr)
 {
-  RCLCPP_INFO(node_->get_logger(), "%s: onResultReceived. Done = %s", name().c_str(),
+  RCLCPP_INFO(node_.lock()->get_logger(), "%s: onResultReceived. Done = %s", name().c_str(),
               wr.result->ok ? "true" : "false");
   if (wr.result->ok)
     return BT::NodeStatus::SUCCESS;
   else
   {
-    RCLCPP_ERROR_STREAM(node_->get_logger(), "Error: " << wr.result->error);
+    RCLCPP_ERROR_STREAM(node_.lock()->get_logger(), "Error: " << wr.result->error);
     return BT::NodeStatus::FAILURE;
   }
 }
 
 BT::NodeStatus TrajectoryLoaderSkill::onFailure(BT::ActionNodeErrorCode error)
 {
-  RCLCPP_ERROR( node_->get_logger(), "%s: onFailure with error: %s", name().c_str(), toStr(error) );
+  RCLCPP_ERROR( node_.lock()->get_logger(), "%s: onFailure with error: %s", name().c_str(), toStr(error) );
   return BT::NodeStatus::FAILURE;
 }
 
