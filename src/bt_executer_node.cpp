@@ -113,7 +113,7 @@ int main(int argc, char ** argv)
   BT::SharedLibrary loader;
   rclcpp::executors::MultiThreadedExecutor executor;
 
-  std::vector<rclcpp::Node::SharedPtr> node_handels;
+  std::vector<rclcpp::Node::SharedPtr> node_handles;
   for(const std::string& plugin_name:plugins_to_load)
   {
     std::string path_to_plugin;
