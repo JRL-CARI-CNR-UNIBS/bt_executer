@@ -128,6 +128,7 @@ int main(int argc, char ** argv)
 
     auto nh = rclcpp::Node::make_shared("bt_executer_node_"+plugin_name, options);
     executor.add_node(nh);
+    node_handels.push_back(nh);
 
     BT::RosNodeParams params;
     params.nh = nh;
