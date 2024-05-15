@@ -26,3 +26,5 @@ vcs import < deps.repo
 cd ..
 colcon build --symlink-install 
 ```
+## Examples
+[Here](https://github.com/JRL-CARI-CNR-UNIBS/bt_executer_examples.git) you can find some examples of how to use the package, based on [this cell](https://github.com/JRL-CARI-CNR-UNIBS/battery_cell.git).
