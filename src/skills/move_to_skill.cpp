@@ -11,6 +11,9 @@ MoveToSkill::MoveToSkill(const std::string& name,
   std::string w;
   if(not bt_executer::utils::get_param(node_.lock().get(), ns_, "/world_name", world_, w))
     world_ = "world";
+
+  tf_buffer_ = std::make_unique<tf2_ros::Buffer>(node_.lock()->get_clock());
+  tf_listener_ = std::make_unique<tf2_ros::TransformListener>(*tf_buffer_);
 }
 
 bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
@@ -30,30 +33,40 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
   bt_executer::utils::get_param(node_.lock().get(), ns_, "/scaling", scaling, w);
 
   // Get queried location
+  int iter = 0;
   geometry_msgs::msg::TransformStamped transform;
-  try {
-    transform = tf_buffer_->lookupTransform(
-          location_name, world_,
-          tf2::TimePointZero);
-  } catch (const tf2::TransformException & ex) {
-    RCLCPP_INFO(node_.lock()->get_logger(), "Could not transform %s to %s: %s",
-                location_name.c_str(), location_name.c_str(), ex.what());
+  while(not tf_buffer_->canTransform(world_,location_name,tf2::TimePointZero,tf2::durationFromSec(1.0)))
+  {
+    if(iter>=100)
+    {
+      RCLCPP_INFO(node_.lock()->get_logger(), "Transform from %s to %s not available",location_name.c_str(), world_.c_str());
+      return false;
+    }
+    iter++;
+  }
+
+  try
+  {
+    transform = tf_buffer_->lookupTransform(world_,location_name,tf2::TimePointZero);
+  }catch (const tf2::TransformException & ex)
+  {
+    RCLCPP_INFO(node_.lock()->get_logger(), "Could not transform %s to %s: %s",location_name.c_str(), world_.c_str(),ex.what());
     return false;
   }
 
   // Set goal fields
+  geometry_msgs::msg::PoseStamped pose;
+  tf2::convert(transform,pose);
+  RCLCPP_INFO_STREAM(node_.lock()->get_logger(),"Transform:\n"<<geometry_msgs::msg::to_yaml(transform));
+  RCLCPP_INFO_STREAM(node_.lock()->get_logger(),"Pose:\n"<<geometry_msgs::msg::to_yaml(pose));
+
   goal.group_name = group_name;
   goal.ik_service_name = ik_service_name;
   goal.simulation = simulation;
   goal.fjt_action_name = fjt_action_name;
   goal.speed_scaling_topic = speed_scaling_topic;
   goal.scaling = scaling;
-
-  goal.pose.header = transform.header;
-  goal.pose.pose.orientation = transform.transform.rotation;
-  goal.pose.pose.position.x = transform.transform.translation.x;
-  goal.pose.pose.position.y = transform.transform.translation.y;
-  goal.pose.pose.position.z = transform.transform.translation.z;
+  goal.pose = pose;
 
   return true;
 }

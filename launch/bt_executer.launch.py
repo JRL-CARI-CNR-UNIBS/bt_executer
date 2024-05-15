@@ -15,12 +15,17 @@ def generate_launch_description():
           "--path-to-file",
           PathJoinSubstitution([
             config_folder,
-            "bt_config.yaml"        # load the behavior tree plugins and the tree
+            "bt_config_template.yaml"        # load the behavior tree plugins and the tree
           ]),
           "--path-to-file",
           PathJoinSubstitution([
             config_folder,
-            "skills_config.yaml"    # load the parameters of each skill plugin
+            "skills_config_template.yaml"    # load the parameters of each skill plugin
+          ]),
+          "--path-to-file",
+          PathJoinSubstitution([
+            config_folder,
+            "trajectories.yaml"             # list of precomputed trajectories
           ]),
         ],
         shell=False

@@ -141,8 +141,15 @@ int main(int argc, char ** argv)
 
   std::string path_to_bt = ament_index_cpp::get_package_share_directory(bt_package)+"/trees/"+bt_name;
   RCLCPP_INFO_STREAM(node->get_logger(),"Loading bt: "<<path_to_bt);
+
   factory.registerBehaviorTreeFromFile(path_to_bt);
+  RCLCPP_INFO_STREAM(node->get_logger(),"Behavior tree registered! ");
+
   BT::Tree tree = factory.createTree("MainTree");
+  RCLCPP_INFO_STREAM(node->get_logger(),"Factory successfully created!");
+
+
+  RCLCPP_INFO_STREAM(node->get_logger(),"Starting the execution of the behavior tree..");
 
   bool finish = false;
   while (!finish && rclcpp::ok())

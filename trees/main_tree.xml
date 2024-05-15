@@ -1,5 +1,5 @@
  <root BTCPP_format="4" >
-     <BehaviorTree ID="MainTree">
+     <BehaviorTree ID="MainTree"> <!-- do not change -->
         <Sequence name="root_sequence">
             <Parallel name="root_parallel">
                 <TrajectoryLoaderSkill name="comau_test_trj" action_name= "/comau_trajectory_loader/trajectory_loader" param_ns="comau_test_trj"/>
@@ -12,7 +12,7 @@
             <TriggerSkill name="trigger_service_test" service_name="/trigger_service" param_ns="trigger_service_test"/>
             <SetBoolSkill name="set_bool_service_test" service_name="/set_bool_service" param_ns="set_bool_service_test"/> 
             <GPIOSequenceWriteSkill name="gpio_sequence_write_service_test" service_name="/gpio_sequence_write_service" param_ns="gpio_sequence_write_service_test"/>
-            <WaitSkill name="wait_test" service_name="/sleep_action_server" param_ns="wait_test"/>
+            <WaitSkill name="wait_test" action="/sleep_server" param_ns="wait_test"/>
              -->
         </Sequence>
      </BehaviorTree>

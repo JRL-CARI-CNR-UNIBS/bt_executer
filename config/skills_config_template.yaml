@@ -1,4 +1,6 @@
-bt_executor:
+bt_executor: #do not change or remove the parameter namespace
+  
+  #Example of skills configurations
   comau_move_test:
     group_name: "comau"
     ik_service_name: "/comau_ik_solver/get_ik"
