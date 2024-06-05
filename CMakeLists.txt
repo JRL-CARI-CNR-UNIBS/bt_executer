@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.8)
 project(bt_executer)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    add_compile_options(-Wall -Wextra -Wpedantic)
+  add_compile_options(-funroll-loops -Wall -Ofast)
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find dependencies
@@ -21,13 +21,14 @@ find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(std_srvs REQUIRED)
 
-
 set(EXECUTER_DEPS
+    cnr_param::cnr_param
+    )
+set(ROS_EXECUTER_DEPS
     rclcpp
     std_msgs
     behaviortree_ros2
     btcpp_ros2_interfaces
-    cnr_param
     )
 set(SKILL_LIBRARY_DEPS
     rclcpp
@@ -35,7 +36,6 @@ set(SKILL_LIBRARY_DEPS
     behaviortree_ros2
     btcpp_ros2_interfaces
     trajectory_loader
-    cnr_param
     tf2
     tf2_ros
     std_srvs
@@ -48,6 +48,7 @@ set(SKILL_LIBRARY_DEPS
 add_library(move_to_plugin SHARED
     src/skills/move_to_skill.cpp
     )
+target_link_libraries(move_to_plugin ${EXECUTER_DEPS})
 target_compile_definitions(move_to_plugin PRIVATE  BT_PLUGIN_EXPORT)
 target_include_directories(move_to_plugin PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -58,6 +59,7 @@ ament_target_dependencies(move_to_plugin ${SKILL_LIBRARY_DEPS})
 add_library(trajectory_loader_plugin SHARED
     src/skills/trajectory_loader_skill.cpp
     )
+target_link_libraries(trajectory_loader_plugin ${EXECUTER_DEPS})
 target_compile_definitions(trajectory_loader_plugin PRIVATE  BT_PLUGIN_EXPORT)
 target_include_directories(trajectory_loader_plugin PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -68,6 +70,7 @@ ament_target_dependencies(trajectory_loader_plugin ${SKILL_LIBRARY_DEPS})
 add_library(trigger_service_plugin SHARED
     src/skills/trigger_service_skill.cpp
     )
+target_link_libraries(trigger_service_plugin ${EXECUTER_DEPS})
 target_compile_definitions(trigger_service_plugin PRIVATE  BT_PLUGIN_EXPORT)
 target_include_directories(trigger_service_plugin PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -78,6 +81,7 @@ ament_target_dependencies(trigger_service_plugin ${SKILL_LIBRARY_DEPS})
 add_library(set_bool_service_plugin SHARED
     src/skills/set_bool_service_skill.cpp
     )
+target_link_libraries(set_bool_service_plugin ${EXECUTER_DEPS})
 target_compile_definitions(set_bool_service_plugin PRIVATE  BT_PLUGIN_EXPORT)
 target_include_directories(set_bool_service_plugin PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -88,6 +92,7 @@ ament_target_dependencies(set_bool_service_plugin ${SKILL_LIBRARY_DEPS})
 add_library(wait_plugin SHARED
     src/skills/wait_skill.cpp
     )
+target_link_libraries(wait_plugin ${EXECUTER_DEPS})
 target_compile_definitions(wait_plugin PRIVATE  BT_PLUGIN_EXPORT)
 target_include_directories(wait_plugin PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -99,7 +104,8 @@ ament_target_dependencies(wait_plugin ${SKILL_LIBRARY_DEPS})
 add_executable(bt_executer_node
     src/bt_executer_node.cpp
     )
-ament_target_dependencies(bt_executer_node ${EXECUTER_DEPS})
+target_link_libraries(bt_executer_node ${EXECUTER_DEPS})
+ament_target_dependencies(bt_executer_node ${ROS_EXECUTER_DEPS})
 
 # =======
 # INSTALL
