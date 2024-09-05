@@ -68,6 +68,13 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
   goal.scaling = scaling;
   goal.pose = pose;
 
+  RCLCPP_INFO_STREAM(node_.lock()->get_logger(),"Goal:\n"<<
+                     " group_name = " << goal.group_name <<
+                     " ik_service_name = " << goal.ik_service_name <<
+                     " simulation = " << goal.simulation <<
+                     " fjt_action_name = " << goal.fjt_action_name <<
+                     " speed_scaling_topic = " << goal.speed_scaling_topic <<
+                     " scaling = " << goal.scaling );
   return true;
 }
 
