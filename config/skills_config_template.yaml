@@ -9,6 +9,11 @@ bt_executor: #do not change or remove the parameter namespace
     simulation: False
     speed_scaling_topic: "/speed_ovr"
     scaling: 50
+    pipeline_id: "ompl"
+    planner_id: "BiTRRT"
+    velocity_scaling_factor: 1
+    acceleration_scaling_factor: 1
+    joints_weights: [1,1,1,1,1,1]
 
   comau_test_trj:
     group_name: "comau"
