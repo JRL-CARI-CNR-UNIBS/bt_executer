@@ -15,6 +15,19 @@ bt_executor: #do not change or remove the parameter namespace
     acceleration_scaling_factor: 1
     joints_weights: [1,1,1,1,1,1]
 
+  comau_move_to_conf_test:
+    group_name: "comau"
+    fjt_action_name: "/comau_scaled_fjt_controller/follow_joint_trajectory"
+    simulation: False
+    speed_scaling_topic: "/speed_ovr"
+    scaling: 50
+    pipeline_id: "ompl"
+    planner_id: "BiTRRT"
+    velocity_scaling_factor: 1
+    acceleration_scaling_factor: 1
+    joints_names: [comau_joint_1,comau_joint_2,comau_joint_3,comau_joint_4,comau_joint_5,comau_joint_6]
+    target_joints_configuration: [3.14,3.14,0.0,0.0,0.0,0.0]
+
   comau_test_trj:
     group_name: "comau"
     trj_names: ["trj_comau"]

@@ -56,6 +56,17 @@ target_include_directories(move_to_plugin PUBLIC
     )
 ament_target_dependencies(move_to_plugin ${SKILL_LIBRARY_DEPS})
 
+add_library(move_to_conf_plugin SHARED
+    src/skills/move_to_conf_skill.cpp
+    )
+target_link_libraries(move_to_conf_plugin ${EXECUTER_DEPS})
+target_compile_definitions(move_to_conf_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(move_to_conf_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(move_to_conf_plugin ${SKILL_LIBRARY_DEPS})
+
 add_library(trajectory_loader_plugin SHARED
     src/skills/trajectory_loader_skill.cpp
     )
@@ -112,6 +123,7 @@ ament_target_dependencies(bt_executer_node ${ROS_EXECUTER_DEPS})
 # =======
 install(TARGETS
     move_to_plugin
+    move_to_conf_plugin
     trajectory_loader_plugin
     trigger_service_plugin
     set_bool_service_plugin
