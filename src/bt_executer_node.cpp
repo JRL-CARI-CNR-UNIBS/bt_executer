@@ -110,7 +110,6 @@ int main(int argc, char ** argv)
   }
 
   BT::BehaviorTreeFactory factory;
-  BT::SharedLibrary loader;
   rclcpp::executors::MultiThreadedExecutor executor;
 
   std::vector<rclcpp::Node::SharedPtr> node_handles;
