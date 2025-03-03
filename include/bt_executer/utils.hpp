@@ -12,16 +12,6 @@ namespace bt_executer
 namespace utils
 {
 
-/**
- * @brief Tokenize a string, using a/multiple delimiters
- *
- * @param node The node where the log will be printed
- * @param ns The namespace of the parameter
- * @param param_name The name of the parameter
- * @param param The output parameter
- * @param what The description of the output of the parameter loader
- * @return bool True if the parameter is loaded correctly, false otherwise
- */
 template<typename T>
 inline bool get_param(rclcpp::Node *node, std::string ns, std::string param_name, T& param, std::string what)
 {
