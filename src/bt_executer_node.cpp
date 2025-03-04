@@ -111,6 +111,7 @@ int main(int argc, char ** argv)
 
   BT::BehaviorTreeFactory factory;
   rclcpp::executors::MultiThreadedExecutor executor;
+  std::vector<rclcpp::Node::SharedPtr> node_handles;
 
   for(const std::string& plugin_name:plugins_to_load)
   {
@@ -126,6 +127,7 @@ int main(int argc, char ** argv)
 
     auto nh = rclcpp::Node::make_shared("bt_executer_node_"+plugin_name, options);
     executor.add_node(nh);
+    node_handles.push_back(nh); //keep nh alive
 
     BT::RosNodeParams params;
     params.nh = nh;
